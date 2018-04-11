@@ -6,6 +6,8 @@ PRODUCES WITH THE HELP OF HARVESTWORKS RECIDENCE
 NEW YORK, 2018 
 *****************************************************/
 
+// Version 0.5 / April-10-2018
+
 ArrayList<FlyingLine> layers;
 
 int layersNumber = 10;
