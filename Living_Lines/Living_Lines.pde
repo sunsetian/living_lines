@@ -1,12 +1,12 @@
 /*******************************************************
 INTERACTIVE VISUAL SOFTWARE BY SEBASTIAN GONZALEZ DIXON
-COMMITIONED BY EVA VON SCHWEINITZ
-FOR HER WORK "THE SPACE BETWEEN LETTERS"
-PRODUCES WITH THE HELP OF HARVESTWORKS RECIDENCE
-NEW YORK, 2018 
+COMMISSIONED BY EVA VON SCHWEINITZ
+FOR HER WORK "THE SPACE BETWEEN THE LETTERS"
+PRODUCED WITH THE HELP OF HARVESTWORKS RESIDENCE
+NEW YORK, 2018  
 *****************************************************/
 
-// Version 0.5 / April-10-2018
+// Version 0.6
 
 ArrayList<FlyingLine> layers;
 
@@ -27,6 +27,10 @@ PFont guiFont12;
 PFont guiFont24;
 
 boolean drawGui = true;
+
+boolean playMode = false;
+
+String[] characters = {"1wp", "1ep", "5qp", "8ql", "3el", "6ql"}; 
 
 void setup(){
   
@@ -81,6 +85,11 @@ void draw(){
         text(0, 10, 50+15*i);
       }
     }
+    String playModeName = "";
+    if(playMode) playModeName = "press '=' to change keyboard interaface: Characters";
+    else playModeName = "Press '=' to change keyboard interaface: Explorer ";
+    text(playModeName, 50, 15);
+    text("Press 'g' to hide/show GUI", 50, 30);
   }
   
   for(FlyingLine fl : layers){
@@ -114,39 +123,121 @@ void mouseReleased(){
   
 }
 
+void createCharacter(String _character){
+  
+  setCharacterOption(_character.charAt(0));
+  setCharacterOption(_character.charAt(1));
+  setCharacterOption(_character.charAt(2));
+
+  
+}
 
 void keyPressed(){
   
+  char input = key;
+  
+  if (key == CODED) {
+    if (keyCode == RIGHT) {
+      activeLayer++;
+      activeLayer=activeLayer%10;
+    }
+    if (keyCode == LEFT) {
+      activeLayer--;
+      if(activeLayer<0) activeLayer =9;
+      
+    }
+  }
+  else{ 
+    if(input == '='){
+      playMode = !playMode;
+    }
+    ////// GLOBAL ACTIONS
+  
+    if(input == 'b'){
+      bgColor++;
+      bgColor = bgColor%2;
+    }
+    
+    if(input == 'x'){
+      layers.get(activeLayer).deleteLine();   
+    }
+    
+    if(input == 'X'){
+      for(FlyingLine flyline : layers){
+        flyline.deleteLine();
+      }
+    }
+    
+    if(input == 'g'){
+     
+      drawGui = !drawGui;
+    }
+  
+    if(playMode){
+      setCharacter(input);
+    }
+    else{
+      setCharacterOption(input);
+    }
+  }
+  
+}
+
+void setCharacter(char _input){
+  
+  if(_input == '1'){
+    createCharacter(characters[0]);
+  }
+  if(_input == '2'){
+    createCharacter(characters[1]);
+  }
+  if(_input == '3'){
+    createCharacter(characters[2]);
+  }
+  if(_input == '4'){
+    createCharacter(characters[3]);
+  }
+  if(_input == '5'){
+    createCharacter(characters[4]);
+  }
+  if(_input == '6'){
+    createCharacter(characters[5]);
+  }
+  
+}
+  
+void setCharacterOption(char _input){
+  
   ////// LAYER SELECT
   
-  if(key == '1'){
+  if(_input == '1'){
     activeLayer = 0;
   }
-  if(key == '2'){
+  if(_input == '2'){
     activeLayer = 1;
   }
-  if(key == '3'){
+  if(_input == '3'){
     activeLayer = 2;
   }
-  if(key == '4'){
+  if(_input == '4'){
     activeLayer = 3;
   }
-  if(key == '5'){
+  if(_input == '5'){
     activeLayer = 4;
   }
-  if(key == '6'){
+  if(_input == '6'){
     activeLayer = 5;
   }
-  if(key == '7'){
+  if(_input == '7'){
     activeLayer = 6;
   }
-  if(key == '8'){
+  if(_input == '8'){
     activeLayer = 7;
   }
-  if(key == '9'){
+  if(_input == '9'){
     activeLayer = 8;
   }
-  if(key == '0'){
+  if(_input == '0'){
     activeLayer = 9;
   }
   
@@ -156,32 +247,32 @@ void keyPressed(){
   
   ///// BEHAVIORS SELECT
   
-  if(key == 'q'){
+  if(_input == 'q'){
     for(Particle p : fl.flyLine){
        p.setBehavior(1, false);
     }
   }
-  if(key == 'w'){
+  if(_input == 'w'){
     for(Particle p : fl.flyLine){
        p.setBehavior(2, false);
     }
   }
-  if(key == 'e'){
+  if(_input == 'e'){
     for(Particle p : fl.flyLine){
        p.setBehavior(3, false);
     }
   }
-  if(key == 'r'){
+  if(_input == 'r'){
     for(Particle p : fl.flyLine){
        p.setBehavior(4, false);
     }
   }
-  if(key == 'a'){
+  if(_input == 'a'){
     for(Particle p : fl.flyLine){
        p.setBehavior(5, false);
     }
   }
-  if(key == 's'){
+  if(_input == 's'){
     for(Particle p : fl.flyLine){
        p.setBehavior(6, false);
     }
@@ -189,42 +280,42 @@ void keyPressed(){
   
   ///// BEHAVIORS MULTIPLE SELECT
   
-  if(key == 'Q'){
+  if(_input == 'Q'){
     for(FlyingLine flyline : layers){
       for(Particle p : flyline.flyLine){
          p.setBehavior(1, false);
       }
     }
   }
-  if(key == 'W'){
+  if(_input == 'W'){
     for(FlyingLine flyline : layers){
       for(Particle p : flyline.flyLine){
          p.setBehavior(2, false);
       }
     }
   }
-  if(key == 'E'){
+  if(_input == 'E'){
     for(FlyingLine flyline : layers){
       for(Particle p : flyline.flyLine){
          p.setBehavior(3, false);
       }
     }
   }
-  if(key == 'R'){
+  if(_input == 'R'){
     for(FlyingLine flyline : layers){
       for(Particle p : flyline.flyLine){
          p.setBehavior(4, false);
       }
     }
   }
-  if(key == 'A'){
+  if(_input == 'A'){
     for(FlyingLine flyline : layers){
       for(Particle p : flyline.flyLine){
          p.setBehavior(5, false);
       }
     }
   }
-  if(key == 'S'){
+  if(_input == 'S'){
     for(FlyingLine flyline : layers){
       for(Particle p : flyline.flyLine){
          p.setBehavior(6, false);
@@ -235,89 +326,69 @@ void keyPressed(){
   
   ////// RENDERING MODES
   
-  if(key == 'p'){
+  if(_input == 'p'){
     renderMode = "particles";
     fl.lineMode = renderMode;
   }
-  if(key == 'l'){
+  if(_input == 'l'){
     renderMode = "lines";
     fl.lineMode = renderMode;
   }
-  if(key == 'k'){
+  if(_input == 'k'){
     renderMode = "fatLines";
     fl.lineMode = renderMode;
   }
-  if(key == 'm'){
+  if(_input == 'm'){
     renderMode = "megaLines";
     fl.lineMode = renderMode;
   }
-  if(key == 'n'){
+  if(_input == 'n'){
     renderMode = "letters";
     fl.lineMode = renderMode;
   }
-  if(key == 'o'){
+  if(_input == 'o'){
     renderMode = "circles";
     fl.lineMode = renderMode;
   }
   
   ////// RENDERING MULTIPLE MODES
   
-  if(key == 'P'){
+  if(_input == 'P'){
     for(FlyingLine flyline : layers){
       renderMode = "particles";
       flyline.lineMode = renderMode;
     }
   }
-  if(key == 'L'){
+  if(_input == 'L'){
     for(FlyingLine flyline : layers){
       renderMode = "lines";
       flyline.lineMode = renderMode;
     }
   }
-  if(key == 'K'){
+  if(_input == 'K'){
     for(FlyingLine flyline : layers){
       renderMode = "fatLines";
       flyline.lineMode = renderMode;
     }
   }
-  if(key == 'M'){
+  if(_input == 'M'){
     for(FlyingLine flyline : layers){
       renderMode = "megaLines";
       flyline.lineMode = renderMode;
     }
   }
-  if(key == 'N'){
+  if(_input == 'N'){
     for(FlyingLine flyline : layers){
       renderMode = "letters";
       flyline.lineMode = renderMode;
     }
   }
-  if(key == 'O'){
+  if(_input == 'O'){
     for(FlyingLine flyline : layers){
       renderMode = "circles";
       flyline.lineMode = renderMode;
     }
   }
   
-  ////// GLOBAL ACTIONS
   
-  if(key == 'b'){
-    bgColor++;
-    bgColor = bgColor%2;
-  }
-  
-  if(key == 'x'){
-    layers.get(activeLayer).deleteLine();   
-  }
-  
-  if(key == 'X'){
-    for(FlyingLine flyline : layers){
-      flyline.deleteLine();
-    }
-  }
-  
-  if(key == 'g'){
-    
-    drawGui = !drawGui;
-  }
 }
