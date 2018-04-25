@@ -92,6 +92,13 @@ class Particle {
           pos.add(tempVel);
         
           break;
+          
+        case 7:
+          //float d = TWO_PI*(float(relativeIndex)/float(lineMax));
+          //velocity = new PVector((pos.x-width/2)/5, (pos.y-height/2)/5);
+          //velocity.mult(5.0);
+          pos.add(velocity);
+          break;
       }
     
     
@@ -111,9 +118,9 @@ class Particle {
  
   }
   
-  void setBehavior(int _activeBehavior, boolean reset){
+  void setBehavior(int _activeBehavior, boolean _reset){
     
-    if(activeBehavior != _activeBehavior || reset){
+    if(activeBehavior != _activeBehavior || _reset){
       activeBehavior = _activeBehavior;
     
       switch(activeBehavior){
@@ -157,6 +164,14 @@ class Particle {
           velocity = new PVector(0, 0);
           //velocity.mult(2.0);       
           acceleration = new PVector(0,-0.5);  
+          break;
+          
+        case 7:
+          //float d = TWO_PI*(float(index)/float(lineMax));
+          float normal = abs(pos.x-width/2) + abs(pos.y-height/2);
+          velocity = new PVector((pos.x-width/2)/normal, (pos.y-height/2)/normal);
+          velocity.mult(6.0);       
+          //acceleration = new PVector(0,0);
           break;
       }
     }  
