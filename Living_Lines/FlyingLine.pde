@@ -291,8 +291,7 @@ class FlyingLine {
         fill(lineColor, (255*float(relativeIndex)*0.8/float(lineMax)));
           
         if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines
-          
-          
+  
          //if(i != particleIndex-1 && !flyLine.get(i).isSpace){
            //if(i != flyLine.size()-1){
             ellipse(flyLine.get(i).pos.x, flyLine.get(i).pos.y, 1+60*(float(lineMax-relativeIndex)/float(lineMax)), 1+60*(float(lineMax-relativeIndex)/float(lineMax)));

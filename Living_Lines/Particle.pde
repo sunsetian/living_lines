@@ -99,6 +99,10 @@ class Particle {
           //velocity.mult(5.0);
           pos.add(velocity);
           break;
+        
+        case 8:
+         
+           break;
       }
     
     
@@ -170,9 +174,13 @@ class Particle {
           //float d = TWO_PI*(float(index)/float(lineMax));
           float normal = abs(pos.x-width/2) + abs(pos.y-height/2);
           velocity = new PVector((pos.x-width/2)/normal, (pos.y-height/2)/normal);
-          velocity.mult(6.0);       
+          velocity.mult(20.0);       
           //acceleration = new PVector(0,0);
           break;
+         
+         case 8:
+         
+           break;
       }
     }  
   }
