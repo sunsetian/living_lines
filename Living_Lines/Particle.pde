@@ -101,8 +101,9 @@ class Particle {
           break;
         
         case 8:
-         
-           break;
+          velocity.add(acceleration);    
+          pos.add(velocity);
+          break;
       }
     
     
@@ -179,8 +180,13 @@ class Particle {
           break;
          
          case 8:
-         
-           break;
+          float a2 = random(TWO_PI);
+          float speed2 = random(0.01,0.1);
+          velocity = new PVector(cos(a2), sin(a2));
+          velocity.mult(speed2*20);       
+          acceleration = new PVector(0,0.009);  
+          break;
+       
       }
     }  
   }

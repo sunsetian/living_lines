@@ -2,12 +2,12 @@
 INTERACTIVE VISUAL SOFTWARE BY SEBASTIAN GONZALEZ DIXON
 COMMISSIONED BY EVA VON SCHWEINITZ
 FOR HER WORK "THE SPACE BETWEEN THE LETTERS"
-PRODUCED WITH THE HELP OF HARVESTWORKS RESIDENCE
+CODE PRODUCED WITH THE HELP OF HARVESTWORKS RESIDENCE
 MIT LICENCE
 NEW YORK, 2018  
 *****************************************************/
 
-// Version 0.72
+// Version 0.73
 
 ArrayList<FlyingLine> layers;
 
@@ -45,7 +45,11 @@ int activeCharacter = 1;
 
 int resetTrigger = 0;
 boolean resetafterZActivated = false;
-int resetDelay = 200;
+boolean resetafterXActivated = false;
+boolean deleteActive = false;
+int resetDelay = 45;
+
+int alphaDelete = 255;
 
 String[] charactersScene1 = {"1wp", "1ep", "1el", "0ql", "1qk", "1wo", "5qp", "9ep", "4ql", "3ql"};  ////  a  // IN PERFORMANCE MODE
 String[] charactersScene2 = {"3lq", "7qm", "8ql", "7ql", "6ql", "2pw", "3pw", "4pw", "2el", "2pw"};  ////  s
@@ -82,6 +86,7 @@ void draw(){
   
   background(bgColor*255);
   resetAfterZ();
+  resetAfterX();
   
   if(drawGui == 2){
     fill(colors[activeLayer]);
@@ -176,7 +181,8 @@ void draw(){
     else{
       noFill();
       stroke(layers.get(activeLayer).lineColor);
-      rect(mouseX, mouseY, 10,10);
+      strokeWeight(1);
+      ellipse(mouseX, mouseY, 10,10);
     }
   }
   
@@ -184,18 +190,78 @@ void draw(){
   
 }
 
+void resetAfterX(){
+  
+  if(resetafterXActivated){
+    if(deleteActive){
+      FlyingLine flyline = layers.get(activeLayer);
+      flyline.lineColor = color(flyline.lineColor, alphaDelete);
+      alphaDelete--;
+    }
+    else{
+      for(int i = 0; i < layers.size(); i++){     
+         FlyingLine flyline = layers.get(i);
+         flyline.lineColor = color(flyline.lineColor, alphaDelete);  
+      }
+      alphaDelete--;
+    }
+   
+    
+  }
+  
+  if (frameCount > resetTrigger && resetafterXActivated){ 
+    alphaDelete = 255;
+    resetafterXActivated = false;
+    if(deleteActive){     
+      FlyingLine flyline = layers.get(activeLayer);
+      flyline.lineColor = color(red(flyline.lineColor), green(flyline.lineColor), blue(flyline.lineColor), alphaDelete);
+      flyline.deleteLine();
+      flyline.lineMode = "lines";
+      for(Particle p : flyline.flyLine){
+         p.setBehavior(1, false);          
+      }
+      deleteActive = false;
+    }
+    else{
+      for(int i = 0; i < layers.size(); i++){
+        FlyingLine flyline = layers.get(i);
+        flyline.lineColor = color(red(flyline.lineColor), green(flyline.lineColor), blue(flyline.lineColor), alphaDelete);
+        flyline.deleteLine();
+        flyline.lineMode = "lines";
+        for(Particle p : flyline.flyLine){
+           p.setBehavior(1, false);          
+        }
+      }      
+    }
+  }
+  
+}
+
 void resetAfterZ(){
   
-  if (frameCount > resetTrigger && resetafterZActivated){   
+  if(resetafterZActivated){
+    
+   for(int i = 0; i < layers.size(); i++){
+     if(i != activeLayer){
+       FlyingLine flyline = layers.get(i);
+       flyline.lineColor = color(flyline.lineColor, alphaDelete);
+      
+     }  
+    }
+    alphaDelete--;
+    
+  }
+  
+  if (frameCount > resetTrigger && resetafterZActivated){ 
+    alphaDelete = 255;
+    resetafterZActivated = false;
     for(int i = 0; i < layers.size(); i++){
-        if(i != activeLayer){
-          FlyingLine flyline = layers.get(i);
-          for(Particle p : flyline.flyLine){
-             p.setBehavior(1, false);
-          }
-        }  
-      }
-      resetafterZActivated = false;
+      FlyingLine flyline = layers.get(i);
+      flyline.lineColor = color(red(flyline.lineColor), green(flyline.lineColor), blue(flyline.lineColor), alphaDelete);
+        for(Particle p : flyline.flyLine){
+           p.setBehavior(1, false);
+        }
+    }  
   }
   
 }
@@ -244,6 +310,7 @@ void keyPressed(){
   
   char input = key;
   
+  if(!resetafterZActivated && !resetafterXActivated){
   ////// GLOBAL ACTIONS
   if(input == '='){
     playMode = !playMode;
@@ -255,14 +322,14 @@ void keyPressed(){
   else if(input == 'c'){ 
     cursorOn = !cursorOn;
   } 
-  else if(input == 'x'){
+  /*else if(input == 'x'){
     layers.get(activeLayer).deleteLine();   
   }
   else if(input == 'X'){
     for(FlyingLine flyline : layers){
       flyline.deleteLine();
     }
-  }
+  }*/
   else if(input == 'z'){
     for(int i = 0; i < layers.size(); i++){
       if(i != activeLayer){
@@ -341,6 +408,8 @@ void keyPressed(){
     }
     setCharacterOption(input);
   }  
+  
+  }
 }
 
 void setCharacter(char _input, int _scene){
@@ -638,6 +707,16 @@ void setCharacterOption(char _input){
        p.setBehavior(6, false);
     }
   }
+  else if(_input == 'x'){
+    activeBehavior = _input;
+    fl.lineMode = "particles";
+    for(Particle p : fl.flyLine){
+       p.setBehavior(8, false);
+    }
+    deleteActive = true;
+    resetTrigger = frameCount + resetDelay;
+    resetafterXActivated = true;
+  }
  
   ///// BEHAVIORS MULTIPLE SELECT
   
@@ -688,6 +767,19 @@ void setCharacterOption(char _input){
          p.setBehavior(6, false);
       }
     }
+  }
+  else if(_input == 'X'){
+    activeBehavior = _input;
+    for(FlyingLine flyline : layers){
+      flyline.lineMode = "particles";
+      for(Particle p : flyline.flyLine){
+         p.setBehavior(8, false);
+      }
+    }
+    
+    resetTrigger = frameCount + resetDelay;
+    resetafterXActivated = true;
+    
   }
   
   
