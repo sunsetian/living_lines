@@ -12,7 +12,9 @@ NEW YORK, 2018
 Key Commands
 ------------
 
+///////////
 GLOBAL KEYS
+///////////
 
 
 '=' to toggle between Performance mode and Explorer mode
@@ -35,8 +37,10 @@ GLOBAL KEYS
 
 'V' is to show Explorer GUI.
 
-
+/////////////////////
 IN EXPLORER MODE KEYS
+////////////////////
+
 
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select lines.
 
@@ -57,8 +61,10 @@ Keys in the Left side of the Keyboard are for rendering Modes
 
 Capital letters to apply All the lines the same rendering mode.
 
-
+///////////////////
 IN PERFORMANCE MODE
+///////////////////
+
 
 'a', 's', 'd', 'f', and 'j' to select between 5 different scene banks.
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select a charecter of the selected bank.
