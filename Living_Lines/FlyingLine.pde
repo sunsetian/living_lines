@@ -9,6 +9,7 @@ class FlyingLine {
   int particleIndex = 0;
   
   color lineColor = color(random(100, 255), random(100, 255), random(100, 255));
+  int lineColorIndex = 0;
   
   String lineMode = "lines";
   
@@ -28,11 +29,12 @@ class FlyingLine {
                                't', 'u', 'v', 'w', 'x',
                                 'y', 'z'};
   
-  FlyingLine(int _lineColor, int _lineMax, String _lineMode){
+  FlyingLine(int _lineColor, int _lineMax, String _lineMode, int _lineColorIndex){
     
     lineColor = _lineColor;
     lineMax = _lineMax;
     lineMode = _lineMode;
+    lineColorIndex = _lineColorIndex;
     
     f = createFont("AvenirNextCondensed-Bold-48.vlw", 12);
     textFont(f);
