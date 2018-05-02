@@ -22,7 +22,8 @@ GLOBAL KEYS
 '[' and ']' to cycle through colors.
 
 'x' is to erase selected line.
-'X' to erase all
+
+'X' to erase all.
 
 'z' to move all the layers away except from the active layer.
 
