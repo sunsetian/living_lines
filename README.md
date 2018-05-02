@@ -27,12 +27,13 @@ GLOBAL KEYS
 
 'z' to move all the layers away except from the active layer.
 
-'h' to hold and move a layer
+'h' to hold and move the active layer.
 
-'b' is to change background color
+'b' is to change background color.
 
 'v' is to turn on and of the GUI.
-'V' is to show Explorer GUI
+
+'V' is to show Explorer GUI.
 
 
 IN EXPLORER MODE KEYS
