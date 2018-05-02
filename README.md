@@ -19,7 +19,7 @@ GLOBAL KEYS
 
 'LEFT ARROW' and 'RIGHT ARROW' to cycle around layers or characters
 
-'[' and ']' to cycle through colors.
+'[' and ']' (square brackets) to cycle through colors.
 
 'x' is to erase selected line.
 
