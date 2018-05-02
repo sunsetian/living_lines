@@ -7,7 +7,7 @@ MIT LICENCE
 NEW YORK, 2018  
 *****************************************************/
 
-// Version 0.8
+// Version 0.81
 
 ArrayList<FlyingLine> layers;
 
