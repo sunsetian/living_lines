@@ -15,6 +15,7 @@ Key Commands
 ///////////
 GLOBAL KEYS
 ///////////
+.
 
 
 '=' to toggle between Performance mode and Explorer mode
@@ -37,10 +38,12 @@ GLOBAL KEYS
 
 'V' is to show Explorer GUI.
 
+.
+
 /////////////////////
 IN EXPLORER MODE KEYS
 ////////////////////
-
+.
 
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select lines.
 
@@ -61,15 +64,19 @@ Keys in the Left side of the Keyboard are for rendering Modes
 
 Capital letters to apply All the lines the same rendering mode.
 
+.
+
 ///////////////////
 IN PERFORMANCE MODE
 ///////////////////
-
+.
 
 'a', 's', 'd', 'f', and 'j' to select between 5 different scene banks.
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select a charecter of the selected bank.
 
-
+.
+.
+.
 
 
 Character Protocole
@@ -79,6 +86,7 @@ In Explorer mode you can find in the GUI a 4 values code on the top-left corner.
 
 Search for this lines at the source code:
 
+////////
 
 String[] charactersScene1 = {"1wp2", "1ep5", "1el3", "0ql2", "1qk1", "1wo1", "5qp5", "9ep9", "4ql4", "3ql3"};  ////  a
 
@@ -90,6 +98,9 @@ String[] charactersScene4 = {"0ql0", "1ak1", "1eo1", "1wp1", "1ep1", "1el1", "5q
 
 String[] charactersScene5 = {"2ql2", "3ql3", "4ql4", "5ql5", "6ql6", "2pw2", "3pw3", "4pw4", "5pw5", "6pw6"};  ////  j
 
+/////////
+.
+.
 
 
 The Character protocole consist in 4 values with as in "1wp2" or "6pw6", that you can change with the following rules:
