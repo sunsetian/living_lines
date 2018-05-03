@@ -53,13 +53,13 @@ GLOBAL KEYS
 
 'c' to hide/show the cursor
 
--
+**
 
 /////////////////////
 IN EXPLORER MODE KEYS
 ////////////////////
 
--
+**
 
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select lines.
 
@@ -80,25 +80,25 @@ Keys in the Left side of the Keyboard are for rendering Modes
 
 Capital letters to apply All the lines the same rendering mode.
 
--
+**
 
 ///////////////////
 IN PERFORMANCE MODE
 ///////////////////
-.
+
 
 'a', 's', 'd', 'f', and 'j' to select between 5 different scene banks. (This keys can be changed easyly. Learn how below at Scene Bank Keys section)
 
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select a charecter of the selected bank.
 
--
+**
 
 Character Protocole
 -------------------
 
 In Explorer mode you can find in the GUI a 4 values code on the top-left corner. This code is the current character you have created. You can set up you performance Characters using this protocole inside the items of the 5 charactersScene banks that are availables in the source code.
 
--
+**
 
 The Character protocole consist in 4 values with as in "1wp2" or "6pw6", that you can change with the following rules:
 
@@ -107,7 +107,7 @@ The Character protocole consist in 4 values with as in "1wp2" or "6pw6", that yo
 - Third value selects the rendeling mode of the line ('o', 'p', 'k', 'l', 'n', 'm')
 - Fourth value selects the color (0 to 9). You can see the 10 colors in the GUI at Explorer mode.
 
--
+**
 
 Search for this lines at the source code (Living_Lines.pde) to change the quoted items:
 
@@ -125,8 +125,7 @@ String[] charactersScene5 = {"2ql2", "3ql3", "4ql4", "5ql5", "6ql6", "2pw2", "3p
 
 /////////
 
--
-
+**
 
 Scene Bank Keys
 ---------------
@@ -141,5 +140,5 @@ char[] characterBankKey = {'a', 's', 'd', 'f', 'j'};
 
 //////////
 
-
+*****************************************************
 
