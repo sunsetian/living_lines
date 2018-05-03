@@ -2,12 +2,12 @@
 INTERACTIVE VISUAL SOFTWARE BY SEBASTIAN GONZALEZ DIXON
 COMMISSIONED BY EVA VON SCHWEINITZ
 FOR HER WORK "THE SPACE BETWEEN THE LETTERS"
-CODE PRODUCED WITH THE HELP OF HARVESTWORKS RESIDENCE
-MIT LICENCE
+CODE PRODUCED THANKS TO HARVESTWORKS ARTIST IN RESIDENCE
+OPEN SOURCE UNDER MIT LICENCE
 NEW YORK, 2018  
 *****************************************************/
 
-// Version 0.81
+// Version 0.9
 
 ArrayList<FlyingLine> layers;
 
@@ -20,6 +20,9 @@ int bgColor = 0;
 int[] lineMaxLength = {50, 200, 200, 200, 200, 200, 300, 500, 600, 900}; /// lenght for each one of the lines
 
 color[] colors = {#158788,  #d34c26, #e2a63d, #cdfee9, #fec0b4, #fd9d27, #fafeaf, #d0dc4d, #ec4958, #6C5B7B}; // color for each line
+
+char[] characterBankKey = {'a', 's', 'd', 'f', 'j'};
+int activeCharacterBank = 0;
 
 String renderMode = "lines";
 
@@ -52,11 +55,14 @@ int resetDelay = 45;
 
 int alphaDelete = 255;
 
-String[] charactersScene1 = {"1wp2", "1ep5", "1el3", "0ql2", "1qk1", "1wo1", "5qp5", "9ep9", "4ql4", "3ql3"};  ////  a  // IN PERFORMANCE MODE
-String[] charactersScene2 = {"3lq3", "7qm7", "8ql8", "7ql7", "6ql6", "2pw2", "3pw3", "4pw4", "2el2", "2pw2"};  ////  s
+String[] charactersScene1 = {"1wp1", "1ep1", "1el1", "0ql1", "1qk1", "1wo1", "5qp5", "9ep9", "4ql4", "3ql3"};  ////  a  // IN PERFORMANCE MODE
+String[] charactersScene2 = {"2lq3", "3ql7", "4ql8", "5ql7", "6ql6", "2pw2", "3pw3", "4pw4", "2el2", "2pw2"};  ////  s
 String[] charactersScene3 = {"1el1", "0ql0", "1ak1", "1eo1", "1wp1", "1ep1", "5qp5", "6am6", "6ql6", "3ql3"};  ////  d
 String[] charactersScene4 = {"0ql0", "1ak1", "1eo1", "1wp1", "1ep1", "1el1", "5qp5", "6am6", "6ql6", "4ql4"};  ////  f
 String[] charactersScene5 = {"2ql2", "3ql3", "4ql4", "5ql5", "6ql6", "2pw2", "3pw3", "4pw4", "5pw5", "6pw6"};  ////  j
+
+String activeCharCode;
+String deletedCharCode;
 
 void setup(){
   
@@ -70,14 +76,13 @@ void setup(){
   
   layers = new ArrayList<FlyingLine>();
   
-  for (int i = 0; i < layersNumber; i++) {
-  
+  for (int i = 0; i < layersNumber; i++) {  
     FlyingLine fl = new FlyingLine(colors[i], lineMaxLength[i], renderMode, i);
-    layers.add(fl);
- 
+    layers.add(fl); 
    }
    
    activeCharacter = 1;
+   activeCharCode = charactersScene1[0];
    createCharacter(charactersScene1[0]);
   
 }
@@ -87,25 +92,25 @@ void draw(){
   background(bgColor*255);
   resetAfterZ();
   resetAfterX();
+
+  int tempActiveLayer = activeLayer+1;
+  if(activeLayer == 9){
+    tempActiveLayer = 0;
+  }
+  int tempActiveColor = layers.get(activeLayer).lineColorIndex+1;
+  if(tempActiveColor == 10){
+    tempActiveColor = 0;
+  }
+  
+  activeCharCode = "" + tempActiveLayer + "" + layers.get(activeLayer).behaviorCode + "" + layers.get(activeLayer).renderingCode + "" + tempActiveColor;
   
   if(drawGui == 2){
-    fill(colors[activeColor]);
+    fill(layers.get(activeLayer).lineColor);
     rect(5, 5, 80, 30);
     fill(0);
     textFont(guiFont24);
-       
-    int tempActiveLayer = activeLayer+1;
-    if(activeLayer == 9){
-      tempActiveLayer = 0;
-    }
-    int tempActiveColor = activeColor+1;
-    if(activeColor == 9){
-      tempActiveColor = 0;
-    }
-    
-    String activeMode = "" + tempActiveLayer + "" + activeBehavior + "" + activeRenderMode + "" + tempActiveColor;
-    
-    text(activeMode, 12, 30);
+
+    text(activeCharCode, 12, 30);
 
     for(int i = 0; i < layers.size(); i++){
       fill(colors[i]);
@@ -133,25 +138,19 @@ void draw(){
     if(!playMode){
       textFont(guiFont12);
       fill(200);
-         
-      int tempActiveLayer = activeLayer+1;
-      if(activeLayer == 9){
-        tempActiveLayer = 0;
-      }
       
-      String activeMode = "Explore: " + tempActiveLayer + "" + activeBehavior + "" + activeRenderMode + "" + activeColor;
+      String activeMode = "Explore >> " + activeCharCode;
       text(activeMode, 12, 16);
     }
     else{
       textFont(guiFont12);
       fill(200);
-      String activeMode = "Perform: " + scene + ": " + activeCharacter;
+      String activeMode = "Perform >> '" + characterBankKey[activeCharacterBank] + "': " + activeCharacter + " >> " + activeCharCode;
       text(activeMode, 12, 16);
     }
   }
 
   for(FlyingLine fl : layers){
-
     fl.drawLine();
   }
   
@@ -160,15 +159,12 @@ void draw(){
     fl.updateLine();
   }
   
-  if(holdMode && pressStart){
-    //println("hold and press");
-    
+  if(holdMode && pressStart){ 
     FlyingLine fl = layers.get(activeLayer);
     for(int i = 0; i < fl.flyLine.size(); i++){
       fl.flyLine.get(i).pos.x = fl.flyLine.get(i).originalPos.x + (mouseX - pressStartPos.x);
       fl.flyLine.get(i).pos.y = fl.flyLine.get(i).originalPos.y + (mouseY - pressStartPos.y);
-    }
-    
+    }   
   }
   
   /// draw cursor
@@ -187,9 +183,6 @@ void draw(){
       ellipse(mouseX, mouseY, 10,10);
     }
   }
-  
-  //println("activeLayer " + activeLayer);
-  
 }
 
 void resetAfterX(){
@@ -206,9 +199,7 @@ void resetAfterX(){
          flyline.lineColor = color(flyline.lineColor, alphaDelete);  
       }
       alphaDelete--;
-    }
-   
-    
+    }   
   }
   
   if (frameCount > resetTrigger && resetafterXActivated){ 
@@ -223,6 +214,7 @@ void resetAfterX(){
          p.setBehavior(1, false);          
       }
       deleteActive = false;
+      createCharacter(deletedCharCode);
     }
     else{
       for(int i = 0; i < layers.size(); i++){
@@ -235,23 +227,19 @@ void resetAfterX(){
         }
       }      
     }
-  }
-  
+  }  
 }
 
 void resetAfterZ(){
   
-  if(resetafterZActivated){
-    
+  if(resetafterZActivated){   
    for(int i = 0; i < layers.size(); i++){
      if(i != activeLayer){
        FlyingLine flyline = layers.get(i);
-       flyline.lineColor = color(flyline.lineColor, alphaDelete);
-      
+       flyline.lineColor = color(flyline.lineColor, alphaDelete);     
      }  
     }
-    alphaDelete--;
-    
+    alphaDelete--;  
   }
   
   if (frameCount > resetTrigger && resetafterZActivated){ 
@@ -260,12 +248,11 @@ void resetAfterZ(){
     for(int i = 0; i < layers.size(); i++){
       FlyingLine flyline = layers.get(i);
       flyline.lineColor = color(red(flyline.lineColor), green(flyline.lineColor), blue(flyline.lineColor), alphaDelete);
-        for(Particle p : flyline.flyLine){
-           p.setBehavior(1, false);
-        }
-    }  
-  }
-  
+      for(Particle p : flyline.flyLine){
+         p.setBehavior(1, false);
+      }
+    }    
+  }  
 }
 
 void mousePressed(){
@@ -273,17 +260,16 @@ void mousePressed(){
   if(!pressStart){
     pressStart = true;
     pressStartPos.x = mouseX;
-    pressStartPos.y = mouseY;
- 
+    pressStartPos.y = mouseY; 
   }  
 }
 
 void mouseReleased(){
   
   if(pressStart){
-    pressStart = false;
-    
+    pressStart = false;    
     FlyingLine fl = layers.get(activeLayer);
+    
     for(int i = 0; i < fl.flyLine.size(); i++){
       fl.flyLine.get(i).originalPos.x = fl.flyLine.get(i).pos.x;
       fl.flyLine.get(i).originalPos.y = fl.flyLine.get(i).pos.y;
@@ -313,157 +299,159 @@ void keyPressed(){
   
   char input = key;
   
+  int activeLayerTemp = activeLayer;
+  
   if(!resetafterZActivated && !resetafterXActivated){
-  ////// GLOBAL ACTIONS
-  if(input == '='){
-    playMode = !playMode;
-    if(!playMode) drawGui = 2;
-  }  
-  else if(input == 'b'){
-    bgColor++;
-    bgColor = bgColor%2;
-  } 
-  else if(input == 'c'){ 
-    cursorOn = !cursorOn;
-  }
-  else if(input == 'x'){
-    activeBehavior = input;
-    FlyingLine fl = layers.get(activeLayer);
-    fl.lineMode = "particles";
-    for(Particle p : fl.flyLine){
-       p.setBehavior(8, false);
+    ////// GLOBAL ACTIONS
+    if(input == '='){
+      playMode = !playMode;
+      //if(!playMode) drawGui = 0;
+    }  
+    else if(input == 'b'){
+      bgColor++;
+      bgColor = bgColor%2;
+    } 
+    else if(input == 'c'){ 
+      cursorOn = !cursorOn;
     }
-    deleteActive = true;
-    resetTrigger = frameCount + resetDelay;
-    resetafterXActivated = true;
-  }
-  else if(input == 'X'){
-    activeBehavior = input;
-    for(FlyingLine flyline : layers){
-      flyline.lineMode = "particles";
-      for(Particle p : flyline.flyLine){
+    else if(input == 'x'){
+      FlyingLine fl = layers.get(activeLayer);
+      fl.lineMode = "particles";
+      for(Particle p : fl.flyLine){
          p.setBehavior(8, false);
       }
+      deleteActive = true;
+      resetTrigger = frameCount + resetDelay;
+      resetafterXActivated = true;
+      deletedCharCode = activeCharCode;
     }
-    
-    resetTrigger = frameCount + resetDelay;
-    resetafterXActivated = true;
-    
-  }
-  /*else if(input == 'x'){
-    layers.get(activeLayer).deleteLine();   
-  }
-  else if(input == 'X'){
-    for(FlyingLine flyline : layers){
-      flyline.deleteLine();
-    }
-  }*/
-  else if(input == 'z'){
-    for(int i = 0; i < layers.size(); i++){
-      if(i != activeLayer){
-        FlyingLine flyline = layers.get(i);
+    else if(input == 'X'){
+      for(FlyingLine flyline : layers){
+        flyline.lineMode = "particles";
         for(Particle p : flyline.flyLine){
-           p.setBehavior(7, false);
+           p.setBehavior(8, false);
         }
+      } 
+      resetTrigger = frameCount + resetDelay;
+      resetafterXActivated = true; 
+      deletedCharCode = activeCharCode;
+    }
+    else if(input == 'z'){
+      for(int i = 0; i < layers.size(); i++){
+        if(i != activeLayer){
+          FlyingLine flyline = layers.get(i);
+          for(Particle p : flyline.flyLine){
+             p.setBehavior(7, false);
+          }
+        }  
+      }
+      resetTrigger = frameCount + resetDelay;
+      resetafterZActivated = true;
+    } 
+    else if(input == 'v'){
+      if(playMode){
+        drawGui++;
+        drawGui = drawGui%2;
+      }
+      else{
+        if(drawGui == 0 || drawGui == 1) drawGui = 2;
+        else if(drawGui == 2) drawGui = 0;
+      }
+    }
+    else if(input == 'V'){ 
+      drawGui = 2;
+    }
+    else if(input == 'h'){ 
+      holdMode = !holdMode;
+    }
+    else if(input == ']'){ 
+      FlyingLine flyline = layers.get(activeLayer);
+      int newColorIndex = flyline.lineColorIndex+1;
+      if(newColorIndex >= colors.length) newColorIndex = 0; 
+      setLayerColor(activeLayer, newColorIndex);
+    }
+    else if(input == '['){ 
+      FlyingLine flyline = layers.get(activeLayer);
+      int newColorIndex = flyline.lineColorIndex-1;
+      if(newColorIndex < 0) newColorIndex = colors.length-1;
+      setLayerColor(activeLayer, newColorIndex);
+    }
+  
+    if(playMode){
+      if(input == characterBankKey[0]){
+        scene = 1;
+        activeCharacter = 1;
+        activeCharacterBank = 0;
+        createCharacter(charactersScene1[0]);
+      }
+      else if(input == characterBankKey[1]){
+        scene = 2;
+        activeCharacter = 1;
+        activeCharacterBank = 1;
+        createCharacter(charactersScene2[0]);
+      }
+      else if(input == characterBankKey[2]){
+        scene = 3;
+        activeCharacter = 1;
+        activeCharacterBank = 2;
+        createCharacter(charactersScene3[0]);
+      }
+      else if(input == characterBankKey[3]){
+        scene = 4;
+        activeCharacter = 1;
+        activeCharacterBank = 3;
+        createCharacter(charactersScene4[0]);
+      }
+      else if(input == characterBankKey[4]){
+        scene = 5;
+        activeCharacter = 1;
+        activeCharacterBank = 4;
+        createCharacter(charactersScene5[0]);
+      }
+      
+      if (key == CODED) {
+        if (keyCode == RIGHT) {
+          activeCharacter++;
+          activeCharacter=activeCharacter%10;
+        }
+        else if (keyCode == LEFT) {
+          activeCharacter--;
+          if(activeCharacter<0) activeCharacter = 9;      
+        }
+        String stringInput = str(activeCharacter);
+        char charInput = stringInput.charAt(0);
+        setCharacter(charInput, scene);
+      }
+      else
+      {
+        setCharacter(input, scene);    
       }  
     }
-    resetTrigger = frameCount + resetDelay;
-    resetafterZActivated = true;
-  } 
-  else if(input == 'v'){
-    if(playMode){
-      drawGui++;
-      drawGui = drawGui%2;
+    else{
+      if (key == CODED) {
+        if (keyCode == RIGHT) {
+          activeLayer++;
+          activeLayer=activeLayer%10;
+        }
+        else if (keyCode == LEFT) {
+          activeLayer--;
+          if(activeLayer<0) activeLayer =9;      
+        }
+      }
+      setCharacterOption(input);
+    }    
+  }
+  
+  if(activeLayer != activeLayerTemp){
+    FlyingLine fl = layers.get(activeLayerTemp);
+    if(fl.particleIndex != 0){
+      fl.flyLine.get(fl.particleIndex - 1).isSpace = true;
     }
     else{
-      if(drawGui == 0 || drawGui == 1) drawGui = 2;
-      else if(drawGui == 2) drawGui = 0;
+      fl.flyLine.get(fl.lineMax-1).isSpace = true;
     }
   }
-  else if(input == 'V'){ 
-    drawGui = 2;
-  }
-  else if(input == 'h'){ 
-    holdMode = !holdMode;
-  }
-  else if(input == ']'){ 
-    FlyingLine flyline = layers.get(activeLayer);
-    int newColorIndex = flyline.lineColorIndex+1;
-    println("flyline.lineColorIndex "+ flyline.lineColorIndex);
-    println("newColorIndex "+ newColorIndex);
-    if(newColorIndex >= colors.length) newColorIndex = 0; 
-    println("newColorIndex-- "+ newColorIndex);
-    setLayerColor(activeLayer, newColorIndex);
-  }
-  else if(input == '['){ 
-    FlyingLine flyline = layers.get(activeLayer);
-    int newColorIndex = flyline.lineColorIndex-1;
-    if(newColorIndex < 0) newColorIndex = colors.length-1;
-    setLayerColor(activeLayer, newColorIndex);
-  }
-
-  if(playMode){
-    if(input == 'a'){
-      scene = 1;
-      activeCharacter = 1;
-      createCharacter(charactersScene1[0]);
-    }
-    else if(input == 's'){
-      scene = 2;
-      activeCharacter = 1;
-      createCharacter(charactersScene2[0]);
-    }
-    else if(input == 'd'){
-      scene = 3;
-      activeCharacter = 1;
-      createCharacter(charactersScene3[0]);
-    }
-    else if(input == 'f'){
-      scene = 4;
-      activeCharacter = 1;
-      createCharacter(charactersScene4[0]);
-    }
-    else if(input == 'j'){
-      scene = 5;
-      activeCharacter = 1;
-      createCharacter(charactersScene5[0]);
-    }
-    
-    if (key == CODED) {
-      if (keyCode == RIGHT) {
-        activeCharacter++;
-        activeCharacter=activeCharacter%10;
-      }
-      else if (keyCode == LEFT) {
-        activeCharacter--;
-        if(activeCharacter<0) activeCharacter = 9;      
-      }
-      String stringInput = str(activeCharacter);
-      char charInput = stringInput.charAt(0);
-      //println("charInput " + charInput);
-      setCharacter(charInput, scene);
-    }
-    else
-    {
-      setCharacter(input, scene);    
-    }  
-  }
-  else{
-    if (key == CODED) {
-      if (keyCode == RIGHT) {
-        activeLayer++;
-        activeLayer=activeLayer%10;
-      }
-      else if (keyCode == LEFT) {
-        activeLayer--;
-        if(activeLayer<0) activeLayer =9;
-        
-      }
-    }
-    setCharacterOption(input);
-  }  
   
-  }
 }
 
 void setCharacter(char _input, int _scene){
@@ -677,21 +665,16 @@ void setCharacter(char _input, int _scene){
       activeCharacter = 0;
       createCharacter(charactersScene5[9]);
     }
-  }
-  
-  
+  } 
 }
   
 void setLayerColor(int _layer, int _colorIndex){
-  println("_layer " + _layer);
-  //int  = _layer;
+  
   if(_layer == -1) _layer = 9;
   if(_colorIndex == -1) _colorIndex = 9;
   FlyingLine fl = layers.get(_layer);
-  println("_colorIndex " + _colorIndex);
   fl.lineColor = colors[_colorIndex];
-  fl.lineColorIndex = _colorIndex;
-  
+  fl.lineColorIndex = _colorIndex; 
   activeColor = _colorIndex;
   
 }
@@ -730,58 +713,60 @@ void setCharacterOption(char _input){
   else if(_input == '0'){
     activeLayer = 9;
   }
-  
-  
+   
   FlyingLine fl = layers.get(activeLayer);
-  
   
   ///// BEHAVIORS SELECT
   
-  
-  
   if(_input == 'q'){
     activeBehavior = _input;
+    fl.behaviorCode = _input;
     for(Particle p : fl.flyLine){
        p.setBehavior(1, false);
     }
   }
   else if(_input == 'w'){
     activeBehavior = _input;
+    fl.behaviorCode = _input;
     for(Particle p : fl.flyLine){
        p.setBehavior(2, false);
     }
   }
   else if(_input == 'e'){
     activeBehavior = _input;
+    fl.behaviorCode = _input;
     for(Particle p : fl.flyLine){
        p.setBehavior(3, false);
     }
   }
   else if(_input == 'r'){
     activeBehavior = _input;
+    fl.behaviorCode = _input;
     for(Particle p : fl.flyLine){
        p.setBehavior(4, false);
     }
   }
   else if(_input == 'a'){
     activeBehavior = _input;
+    fl.behaviorCode = _input;
     for(Particle p : fl.flyLine){
        p.setBehavior(5, false);
     }
   }
   else if(_input == 's'){
     activeBehavior = _input;
+    fl.behaviorCode = _input;
     for(Particle p : fl.flyLine){
        p.setBehavior(6, false);
     }
   }
-  
- 
+   
   ///// BEHAVIORS MULTIPLE SELECT
   
   if(_input == 'Q'){
-    activeBehavior = _input;
+    activeBehavior = _input;   
     for(FlyingLine flyline : layers){
+      flyline.behaviorCode = 'q';
       for(Particle p : flyline.flyLine){
          p.setBehavior(1, false);
       }
@@ -789,7 +774,9 @@ void setCharacterOption(char _input){
   }
   else if(_input == 'W'){
     activeBehavior = _input;
+    fl.behaviorCode = _input;
     for(FlyingLine flyline : layers){
+      flyline.behaviorCode = 'w';
       for(Particle p : flyline.flyLine){
          p.setBehavior(2, false);
       }
@@ -798,6 +785,7 @@ void setCharacterOption(char _input){
   else if(_input == 'E'){
     activeBehavior = _input;
     for(FlyingLine flyline : layers){
+      flyline.behaviorCode = 'e';
       for(Particle p : flyline.flyLine){
          p.setBehavior(3, false);
       }
@@ -806,6 +794,7 @@ void setCharacterOption(char _input){
   else if(_input == 'R'){
     activeBehavior = _input;
     for(FlyingLine flyline : layers){
+      flyline.behaviorCode = 'r';
       for(Particle p : flyline.flyLine){
          p.setBehavior(4, false);
       }
@@ -814,6 +803,7 @@ void setCharacterOption(char _input){
   else if(_input == 'A'){
     activeBehavior = _input;
     for(FlyingLine flyline : layers){
+      flyline.behaviorCode = 'a';
       for(Particle p : flyline.flyLine){
          p.setBehavior(5, false);
       }
@@ -822,43 +812,48 @@ void setCharacterOption(char _input){
   else if(_input == 'S'){
     activeBehavior = _input;
     for(FlyingLine flyline : layers){
+      flyline.behaviorCode = 's';
       for(Particle p : flyline.flyLine){
          p.setBehavior(6, false);
       }
     }
   }
-  
-  
-  
+ 
   ////// RENDERING MODES
   
   if(_input == 'p'){
     activeRenderMode = _input;
+    fl.renderingCode = _input;
     renderMode = "particles";
     fl.lineMode = renderMode;
   }
   else if(_input == 'l'){
     activeRenderMode = _input;
+    fl.renderingCode = _input;
     renderMode = "lines";
     fl.lineMode = renderMode;
   }
   else if(_input == 'k'){
     activeRenderMode = _input;
+    fl.renderingCode = _input;
     renderMode = "fatLines";
     fl.lineMode = renderMode;
   }
   else if(_input == 'm'){
     activeRenderMode = _input;
+    fl.renderingCode = _input;
     renderMode = "megaLines";
     fl.lineMode = renderMode;
   }
   else if(_input == 'n'){
     activeRenderMode = _input;
+    fl.renderingCode = _input;
     renderMode = "letters";
     fl.lineMode = renderMode;
   }
   else if(_input == 'o'){
     activeRenderMode = _input;
+    fl.renderingCode = _input;
     renderMode = "circles";
     fl.lineMode = renderMode;
   }
@@ -868,6 +863,7 @@ void setCharacterOption(char _input){
   if(_input == 'P'){
     activeRenderMode = _input;
     for(FlyingLine flyline : layers){
+      flyline.renderingCode = 'p';
       renderMode = "particles";
       flyline.lineMode = renderMode;
     }
@@ -875,6 +871,7 @@ void setCharacterOption(char _input){
   else if(_input == 'L'){
     activeRenderMode = _input;
     for(FlyingLine flyline : layers){
+      flyline.renderingCode = 'l';
       renderMode = "lines";
       flyline.lineMode = renderMode;
     }
@@ -882,6 +879,7 @@ void setCharacterOption(char _input){
   else if(_input == 'K'){
     activeRenderMode = _input;
     for(FlyingLine flyline : layers){
+      flyline.renderingCode = 'k';
       renderMode = "fatLines";
       flyline.lineMode = renderMode;
     }
@@ -889,6 +887,7 @@ void setCharacterOption(char _input){
   else if(_input == 'M'){
     activeRenderMode = _input;
     for(FlyingLine flyline : layers){
+      flyline.renderingCode = 'm';
       renderMode = "megaLines";
       flyline.lineMode = renderMode;
     }
@@ -896,6 +895,7 @@ void setCharacterOption(char _input){
   else if(_input == 'N'){
     activeRenderMode = _input;
     for(FlyingLine flyline : layers){
+      flyline.renderingCode = 'n';
       renderMode = "letters";
       flyline.lineMode = renderMode;
     }
@@ -903,10 +903,9 @@ void setCharacterOption(char _input){
   else if(_input == 'O'){
     activeRenderMode = _input;
     for(FlyingLine flyline : layers){
+      flyline.renderingCode = 'o';
       renderMode = "circles";
       flyline.lineMode = renderMode;
     }
-  }
-  
-  
+  } 
 }

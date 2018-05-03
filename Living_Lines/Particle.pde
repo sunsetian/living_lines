@@ -44,30 +44,20 @@ class Particle {
            
           break;
         
-        case 2:
-        
+        case 2:        
           velocity.add(acceleration);    
-          pos.add(velocity);
-        
+          pos.add(velocity);      
           break;
         
-        case 3:
-         
+        case 3:      
           float oscilator =sin(cycle/50);
-          //println("oscilator " + oscilator);
-          //velocity.mult(oscilator);
           tempVel = new PVector(velocity.x*oscilator*1.0, velocity.y*oscilator*1.0);
-          //println("acceleration.x " + acceleration.x );
-          //velocity.add(tempAccel);  
-          //velocity.mult(oscilator);
           pos.add(tempVel);
-        
           break;
          
         case 4:
           pos.x = pos.x*0.97 + originalPos.x*0.03; 
           pos.y = pos.y*0.96 + originalPos.y*0.04; 
-  
           break;
           
         case 5:
@@ -76,27 +66,18 @@ class Particle {
           pos.add(velocity);
           break;
           
-        case 6:
-          
+        case 6:  
           float relativeDelta = float(lineMax-relativeIndex)/float(lineMax);
-          speed = relativeDelta*0.1;
-          
-          tempAccel = new PVector(acceleration.x, acceleration.y);
-          
+          speed = relativeDelta*0.1;    
+          tempAccel = new PVector(acceleration.x, acceleration.y);  
           tempAccel.mult(relativeDelta);
-          velocity.add(tempAccel);
-          
+          velocity.add(tempAccel);   
           tempVel = new PVector(velocity.x, velocity.y);
-          tempVel.mult(speed);  
-          
-          pos.add(tempVel);
-        
+          tempVel.mult(speed);      
+          pos.add(tempVel);  
           break;
           
         case 7:
-          //float d = TWO_PI*(float(relativeIndex)/float(lineMax));
-          //velocity = new PVector((pos.x-width/2)/5, (pos.y-height/2)/5);
-          //velocity.mult(5.0);
           pos.add(velocity);
           break;
         
@@ -105,26 +86,18 @@ class Particle {
           pos.add(velocity);
           break;
       }
-    
-    
-    }
-    
-    
+    }  
   }
   
-  void reset(PVector _pos, int _index){
-    
+  void reset(PVector _pos, int _index){  
     index = _index;
     isSpace = false;
     pos = _pos;
-    originalPos = new PVector(_pos.x, _pos.y);
-    
+    originalPos = new PVector(_pos.x, _pos.y); 
     setBehavior(activeBehavior, true);
- 
   }
   
-  void setBehavior(int _activeBehavior, boolean _reset){
-    
+  void setBehavior(int _activeBehavior, boolean _reset){ 
     if(activeBehavior != _activeBehavior || _reset){
       activeBehavior = _activeBehavior;
     
@@ -144,14 +117,12 @@ class Particle {
           break;
         
         case 3:
-          //velocity = new PVector(0,0);
           float b = random(TWO_PI);
           velocity = new PVector(cos(b), sin(b));
           velocity.mult(0.2);
           break;
           
         case 4:
-          //velocity = new PVector(0,0);
           acceleration = new PVector(0,0);
           break;
         
@@ -159,24 +130,17 @@ class Particle {
           float c = TWO_PI*(float(index)/float(lineMax));
           velocity = new PVector(cos(c), sin(c));
           velocity.mult(1.2);       
-          //acceleration = new PVector(0,0);
           break;
           
         case 6:
-          //float d = random(TWO_PI);
-          //float speed_d = float(index)/float(lineMax);
-          //velocity = new PVector(cos(d), sin(d));
-          velocity = new PVector(0, 0);
-          //velocity.mult(2.0);       
+          velocity = new PVector(0, 0);     
           acceleration = new PVector(0,-0.5);  
           break;
           
         case 7:
-          //float d = TWO_PI*(float(index)/float(lineMax));
           float normal = abs(pos.x-width/2) + abs(pos.y-height/2);
           velocity = new PVector((pos.x-width/2)/normal, (pos.y-height/2)/normal);
           velocity.mult(20.0);       
-          //acceleration = new PVector(0,0);
           break;
          
          case 8:
@@ -185,8 +149,7 @@ class Particle {
           velocity = new PVector(cos(a2), sin(a2));
           velocity.mult(speed2*20);       
           acceleration = new PVector(0,0.009);  
-          break;
-       
+          break;      
       }
     }  
   }
@@ -194,7 +157,5 @@ class Particle {
   void delete(){
     pos = new PVector(-10000, -10000);
     originalPos = new PVector(-10000, -10000);
-  }
-  
-  
+  } 
 }

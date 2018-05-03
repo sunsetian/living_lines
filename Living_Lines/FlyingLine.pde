@@ -4,6 +4,9 @@ class FlyingLine {
   
   int behavior = 1;
   
+  char behaviorCode = 'q';
+  char renderingCode = 'l';
+  
   int lineMax = 300;
   
   int particleIndex = 0;
@@ -43,12 +46,9 @@ class FlyingLine {
   
     for (int i = 0; i < lineMax; i++) {
       Particle p = new Particle(new PVector(-10000, -10000), i, lineMax);
-      flyLine.add(p);
-   
-     }
-    
+      flyLine.add(p);  
+     }  
   }
-
   
    void updateLine(){ 
    
@@ -121,6 +121,34 @@ class FlyingLine {
       
       endShape();
       
+      
+    }
+    else if(lineMode == "lines"){
+      //ORIGINAL LINE DRAWING
+      noFill();
+      strokeWeight(4);
+      for(int i = 0; i < flyLine.size(); i++){      
+        if(i >= particleIndex){
+          relativeIndex = i-particleIndex;
+        }
+        else{
+          relativeIndex = lineMax+i-particleIndex;
+        }  
+        stroke(lineColor, (255*float(relativeIndex)*1/float(lineMax)));
+          
+        if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines  
+         if(i != particleIndex-1 && !flyLine.get(i).isSpace){
+           if(i != flyLine.size()-1){
+            line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(i+1).pos.x, flyLine.get(i+1).pos.y);
+           }
+           else if(particleIndex != 0){
+             line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(0).pos.x, flyLine.get(0).pos.y);
+           }      
+         }
+        }      
+         flyLine.get(i).update(relativeIndex);
+      }
+      
       if(debugMode){
         noStroke();
         fill(255,0,0);
@@ -140,46 +168,14 @@ class FlyingLine {
           }
         }
       }
-    }
-    else if(lineMode == "lines"){
-      //ORIGINAL LINE DRAWING
-      noFill();
-      strokeWeight(4);
-      //strokeCap(SQUARE);
-      for(int i = 0; i < flyLine.size(); i++){
-        
-        if(i >= particleIndex){
-          relativeIndex = i-particleIndex;
-        }
-        else{
-          relativeIndex = lineMax+i-particleIndex;
-        }  
-        stroke(lineColor, (255*float(relativeIndex)*1/float(lineMax)));
-          
-        if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines
-          
-          
-         if(i != particleIndex-1 && !flyLine.get(i).isSpace){
-           if(i != flyLine.size()-1){
-            line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(i+1).pos.x, flyLine.get(i+1).pos.y);
-           }
-           else if(particleIndex != 0){
-             line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(0).pos.x, flyLine.get(0).pos.y);
-           }      
-         }
-        }
-        
-         flyLine.get(i).update(relativeIndex);
-      }
-    
+      
     }
     else if(lineMode == "megaLines"){
       //ORIGINAL LINE DRAWING
       noFill();
       strokeWeight(20);
       //strokeCap(SQUARE);
-      for(int i = 0; i < flyLine.size(); i++){
-        
+      for(int i = 0; i < flyLine.size(); i++){       
         if(i >= particleIndex){
           relativeIndex = i-particleIndex;
         }
@@ -188,9 +184,7 @@ class FlyingLine {
         }  
         stroke(lineColor, 255);
           
-        if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines
-          
-          
+        if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines     
          if(i != particleIndex-1 && !flyLine.get(i).isSpace){
            if(i != flyLine.size()-1){
             line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(i+1).pos.x, flyLine.get(i+1).pos.y);
@@ -199,19 +193,14 @@ class FlyingLine {
              line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(0).pos.x, flyLine.get(0).pos.y);
            }      
          }
-        }
-        
-         flyLine.get(i).update(relativeIndex);
-      }
-    
+        }       
+        flyLine.get(i).update(relativeIndex);
+      }  
     }
     else if(lineMode == "fatLines"){
       //ORIGINAL LINE DRAWING
       noFill();
-      //strokeWeight(4);
-      //strokeCap(SQUARE);
-      for(int i = 0; i < flyLine.size(); i++){
-        
+      for(int i = 0; i < flyLine.size(); i++){       
         if(i >= particleIndex){
           relativeIndex = i-particleIndex;
         }
@@ -219,8 +208,7 @@ class FlyingLine {
           relativeIndex = lineMax+i-particleIndex;
         }  
         stroke(lineColor, 255);
-        //println("(60*float(relativeIndex)/float(lineMax)) " + (60*float(relativeIndex)/float(lineMax)));
-        
+ 
         if(relativeIndex > lineMax/2){
           strokeWeight((60*float(lineMax-relativeIndex)/float(lineMax)));
         }
@@ -228,9 +216,7 @@ class FlyingLine {
             strokeWeight((60*float(relativeIndex)/float(lineMax)));
         }
           
-        if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines
-          
-          
+        if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines  
          if(i != particleIndex-1 && !flyLine.get(i).isSpace){
            if(i != flyLine.size()-1){
             line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(i+1).pos.x, flyLine.get(i+1).pos.y);
@@ -239,19 +225,15 @@ class FlyingLine {
              line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(0).pos.x, flyLine.get(0).pos.y);
            }      
          }
-        }
-        
-         flyLine.get(i).update(relativeIndex);
-      }
-    
+        }       
+        flyLine.get(i).update(relativeIndex);
+      }   
     }
     else if(lineMode == "particles"){
       //ORIGINAL LINE DRAWING
       noStroke();
       strokeWeight(4);
-      //strokeCap(SQUARE);
-      for(int i = 0; i < flyLine.size(); i++){
-        
+      for(int i = 0; i < flyLine.size(); i++){      
         if(i >= particleIndex){
           relativeIndex = i-particleIndex;
         }
@@ -261,29 +243,15 @@ class FlyingLine {
         fill(lineColor, (255*float(relativeIndex)*1/float(lineMax)));
           
         if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines
-          
-          
-         //if(i != particleIndex-1 && !flyLine.get(i).isSpace){
-           //if(i != flyLine.size()-1){
-            ellipse(flyLine.get(i).pos.x, flyLine.get(i).pos.y, 3, 3);
-           //}
-           //else if(particleIndex != 0){
-             //line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(0).pos.x, flyLine.get(0).pos.y);
-           //}      
-         //}
-        }
-        
+          ellipse(flyLine.get(i).pos.x, flyLine.get(i).pos.y, 3, 3);
+        }       
          flyLine.get(i).update(relativeIndex);
-      }
-    
+      } 
     }
     else if(lineMode == "circles"){
       //ORIGINAL LINE DRAWING
       noStroke();
-      //strokeWeight(4);
-      //strokeCap(SQUARE);
-      for(int i = 0; i < flyLine.size(); i++){
-        
+      for(int i = 0; i < flyLine.size(); i++){      
         if(i >= particleIndex){
           relativeIndex = i-particleIndex;
         }
@@ -293,29 +261,17 @@ class FlyingLine {
         fill(lineColor, (255*float(relativeIndex)*0.8/float(lineMax)));
           
         if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines
-  
-         //if(i != particleIndex-1 && !flyLine.get(i).isSpace){
-           //if(i != flyLine.size()-1){
-            ellipse(flyLine.get(i).pos.x, flyLine.get(i).pos.y, 1+60*(float(lineMax-relativeIndex)/float(lineMax)), 1+60*(float(lineMax-relativeIndex)/float(lineMax)));
-           //}
-           //else if(particleIndex != 0){
-             //line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(0).pos.x, flyLine.get(0).pos.y);
-           //}      
-         //}
+          ellipse(flyLine.get(i).pos.x, flyLine.get(i).pos.y, 1+60*(float(lineMax-relativeIndex)/float(lineMax)), 1+60*(float(lineMax-relativeIndex)/float(lineMax)));
         }
-        
-         flyLine.get(i).update(relativeIndex);
+        flyLine.get(i).update(relativeIndex);
       }
-    
     }
     else if(lineMode == "letters"){
       //ORIGINAL LINE DRAWING
       noStroke();
       strokeWeight(4);
-      //strokeCap(SQUARE);
-      
-      for(int i = 0; i < flyLine.size(); i++){
-        
+
+      for(int i = 0; i < flyLine.size(); i++){  
         if(i >= particleIndex){
           relativeIndex = i-particleIndex;
         }
@@ -324,35 +280,18 @@ class FlyingLine {
         }  
         fill(lineColor, (255*float(relativeIndex)*1/float(lineMax)));
           
-        if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines
-          
-          
-         //if(i != particleIndex-1 && !flyLine.get(i).isSpace){
-           //if(i != flyLine.size()-1){
-             
-            char c = letterSet[int(i%(letterSet.length))];
-            text(c, flyLine.get(i).pos.x, flyLine.get(i).pos.y);
-           //}
-           //else if(particleIndex != 0){
-             //line(flyLine.get(i).pos.x, flyLine.get(i).pos.y, flyLine.get(0).pos.x, flyLine.get(0).pos.y);
-           //}      
-         //}
-        }
-        
+        if(flyLine.get(i).pos.x > -500 && flyLine.get(i).pos.y > -500 && flyLine.get(i).pos.x < width + 500 && flyLine.get(i).pos.y < height + 500){ /// Bounderies for deleted lines  
+          char c = letterSet[int(i%(letterSet.length))];
+          text(c, flyLine.get(i).pos.x, flyLine.get(i).pos.y);
+        }      
          flyLine.get(i).update(relativeIndex);
-      }
-    
+      } 
     }
-  
   }
   
   void deleteLine(){
-    for(Particle p : flyLine){
-      
+    for(Particle p : flyLine){    
       p.delete();
     }
   }
-  
-  
-
 }
