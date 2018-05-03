@@ -87,7 +87,7 @@ IN PERFORMANCE MODE
 ///////////////////
 .
 
-'a', 's', 'd', 'f', and 'j' to select between 5 different scene banks.
+'a', 's', 'd', 'f', and 'j' to select between 5 different scene banks. (This keys can be changed easyly. Learn how below at Scene Bank Keys section)
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select a charecter of the selected bank.
 
 -
@@ -115,11 +115,15 @@ String[] charactersScene5 = {"2ql2", "3ql3", "4ql4", "5ql5", "6ql6", "2pw2", "3p
 
 -
 
-/////////
 
-Also it is now possible to change the keys that select the 5 banks.
+Scene Bank Keys
+---------------
+
+Also, it is possible to change the keys that select the 5 banks.
 
 Search for this lines at the source code (Living_Lines.pde), and change the letter for the ones you like more, being carful of not using the Global Keys:
+
+//////////
 
 char[] characterBankKey = {'a', 's', 'd', 'f', 'j'};
 
@@ -136,14 +140,4 @@ Third value selects the rendeling mode of the line ('o', 'p', 'k', 'l', 'n', 'm'
 Fourth value selects the color (0 to 9). You can see the 10 colors in the GUI at Explorer mode.
 
 -
-
-
-
-
-
-
-
-
-
-
 
