@@ -1,6 +1,11 @@
 # Living Lines
 Drawing Software Made in processing with interactive animations of the drawn lines.
 
+-
+
+//////////////////
+
+
 INTERACTIVE VISUAL SOFTWARE BY SEBASTIAN GONZALEZ DIXON,
 
 COMMISSIONED BY EVA VON SCHWEINITZ
@@ -12,6 +17,8 @@ CODE PRODUCED THANKS TO HARVESTWORKS ARTIST IN RESIDENCE
 OPEN SOURCE UNDER MIT LICENCE
 
 NEW YORK, 2018  
+
+-
 
 
 Key Commands
