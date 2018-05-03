@@ -88,6 +88,7 @@ IN PERFORMANCE MODE
 .
 
 'a', 's', 'd', 'f', and 'j' to select between 5 different scene banks. (This keys can be changed easyly. Learn how below at Scene Bank Keys section)
+
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select a charecter of the selected bank.
 
 -
