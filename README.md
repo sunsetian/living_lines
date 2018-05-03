@@ -115,6 +115,18 @@ String[] charactersScene5 = {"2ql2", "3ql3", "4ql4", "5ql5", "6ql6", "2pw2", "3p
 
 -
 
+/////////
+
+Also it is now possible to change the keys that select the 5 banks.
+
+Search for this lines at the source code (Living_Lines.pde), and change the letter for the ones you like more, being carful of not using the Global Keys:
+
+char[] characterBankKey = {'a', 's', 'd', 'f', 'j'};
+
+//////////
+
+-
+
 
 The Character protocole consist in 4 values with as in "1wp2" or "6pw6", that you can change with the following rules:
 
