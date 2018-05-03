@@ -1,7 +1,7 @@
 # Living Lines
 Drawing Software Made in processing with interactive animations of the drawn lines.
 
-+
+**
 
 //////////////////
 
@@ -18,7 +18,7 @@ OPEN SOURCE UNDER MIT LICENCE
 
 NEW YORK, 2018  
 
--
+**
 
 
 Key Commands
@@ -102,10 +102,10 @@ In Explorer mode you can find in the GUI a 4 values code on the top-left corner.
 
 The Character protocole consist in 4 values with as in "1wp2" or "6pw6", that you can change with the following rules:
 
--First value selects the line layer (0 to 9). Each layer has a different size for different visual results.
--Second value selects the behavios of the line ('q', 'w', 'e', 'r', 'a', 's')
--Third value selects the rendeling mode of the line ('o', 'p', 'k', 'l', 'n', 'm')
--Fourth value selects the color (0 to 9). You can see the 10 colors in the GUI at Explorer mode.
+- First value selects the line layer (0 to 9). Each layer has a different size for different visual results.
+- Second value selects the behavios of the line ('q', 'w', 'e', 'r', 'a', 's')
+- Third value selects the rendeling mode of the line ('o', 'p', 'k', 'l', 'n', 'm')
+- Fourth value selects the color (0 to 9). You can see the 10 colors in the GUI at Explorer mode.
 
 -
 
