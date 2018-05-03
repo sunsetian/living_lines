@@ -39,6 +39,8 @@ GLOBAL KEYS
 
 'V' is to show Explorer GUI.
 
+'c' to hide/show the cursor
+
 -
 
 /////////////////////
