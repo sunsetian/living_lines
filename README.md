@@ -1,7 +1,7 @@
 # Living Lines
 Drawing Software Made in processing with interactive animations of the drawn lines.
 
-**
+******************
 
 //////////////////
 
@@ -18,7 +18,7 @@ OPEN SOURCE UNDER MIT LICENCE
 
 NEW YORK, 2018  
 
-**
+********************
 
 
 Key Commands
@@ -28,7 +28,7 @@ Key Commands
 GLOBAL KEYS
 ///////////
 
--
+**
 
 
 '=' to toggle between Performance mode and Explorer mode
@@ -53,7 +53,7 @@ GLOBAL KEYS
 
 'c' to hide/show the cursor
 
-**
+************************
 
 /////////////////////
 IN EXPLORER MODE KEYS
@@ -80,18 +80,19 @@ Keys in the Left side of the Keyboard are for rendering Modes
 
 Capital letters to apply All the lines the same rendering mode.
 
-**
+*******************
 
 ///////////////////
 IN PERFORMANCE MODE
 ///////////////////
 
+**
 
 'a', 's', 'd', 'f', and 'j' to select between 5 different scene banks. (This keys can be changed easyly. Learn how below at Scene Bank Keys section)
 
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select a charecter of the selected bank.
 
-**
+******************
 
 Character Protocole
 -------------------
@@ -125,7 +126,7 @@ String[] charactersScene5 = {"2ql2", "3ql3", "4ql4", "5ql5", "6ql6", "2pw2", "3p
 
 /////////
 
-**
+**************
 
 Scene Bank Keys
 ---------------
