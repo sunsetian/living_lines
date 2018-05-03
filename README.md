@@ -98,7 +98,18 @@ Character Protocole
 
 In Explorer mode you can find in the GUI a 4 values code on the top-left corner. This code is the current character you have created. You can set up you performance Characters using this protocole inside the items of the 5 charactersScene banks that are availables in the source code.
 
-Search for this lines at the source code (Living_Lines.pde):
+-
+
+The Character protocole consist in 4 values with as in "1wp2" or "6pw6", that you can change with the following rules:
+
+First value selects the line layer (0 to 9). Each layer has a different size for different visual results.
+Second value selects the behavios of the line ('q', 'w', 'e', 'r', 'a', 's')
+Third value selects the rendeling mode of the line ('o', 'p', 'k', 'l', 'n', 'm')
+Fourth value selects the color (0 to 9). You can see the 10 colors in the GUI at Explorer mode.
+
+-
+
+Search for this lines at the source code (Living_Lines.pde) to change the quoted items:
 
 ////////
 
@@ -130,15 +141,5 @@ char[] characterBankKey = {'a', 's', 'd', 'f', 'j'};
 
 //////////
 
--
 
-
-The Character protocole consist in 4 values with as in "1wp2" or "6pw6", that you can change with the following rules:
-
-First value selects the line layer (0 to 9). Each layer has a different size for different visual results.
-Second value selects the behavios of the line ('q', 'w', 'e', 'r', 'a', 's')
-Third value selects the rendeling mode of the line ('o', 'p', 'k', 'l', 'n', 'm')
-Fourth value selects the color (0 to 9). You can see the 10 colors in the GUI at Explorer mode.
-
--
 
