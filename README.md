@@ -97,7 +97,7 @@ Character Protocole
 
 In Explorer mode you can find in the GUI a 4 values code on the top-left corner. This code is the current character you have created. You can set up you performance Characters using this protocole inside the items of the 5 charactersScene banks that are availables in the source code.
 
-Search for this lines at the source code:
+Search for this lines at the source code (Living_Lines.pde):
 
 ////////
 
