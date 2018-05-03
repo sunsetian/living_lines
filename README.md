@@ -3,9 +3,6 @@ Drawing Software Made in processing with interactive animations of the drawn lin
 
 ******************
 
-//////////////////
-
-
 INTERACTIVE VISUAL SOFTWARE BY SEBASTIAN GONZALEZ DIXON,
 
 COMMISSIONED BY EVA VON SCHWEINITZ
@@ -25,10 +22,10 @@ Key Commands
 ------------
 
 ///////////
-GLOBAL KEYS
-///////////
 
-**
+GLOBAL KEYS
+
+///////////
 
 
 '=' to toggle between Performance mode and Explorer mode
@@ -56,10 +53,11 @@ GLOBAL KEYS
 ************************
 
 /////////////////////
+
 IN EXPLORER MODE KEYS
+
 ////////////////////
 
-**
 
 Number keys: 1, 2, 3, 4, 5, 6, 7, 8, 9 and 0 are user to select lines.
 
@@ -83,10 +81,11 @@ Capital letters to apply All the lines the same rendering mode.
 *******************
 
 ///////////////////
+
 IN PERFORMANCE MODE
+
 ///////////////////
 
-**
 
 'a', 's', 'd', 'f', and 'j' to select between 5 different scene banks. (This keys can be changed easyly. Learn how below at Scene Bank Keys section)
 
